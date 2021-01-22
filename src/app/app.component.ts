@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Board } from './board.model';
+import { GameOfLifeService } from './game-of-life.service';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,9 @@ export class AppComponent {
   numRows: number;
   generation: number;
   gameStatus: number;
-
   board: Board;
-  constructor() {
+
+  constructor(private gameOfLifeService: GameOfLifeService) {
     this.numCols = 40;
     this.numRows = 40;
     this.generation = 0;
@@ -29,6 +30,9 @@ export class AppComponent {
     }, 100);
   }
   onClick(pRow, pCol): void{
+
+    this.gameOfLifeService.getGenerationOne();
+
     this.board.changeStatus(pRow, pCol);
   }
   onClickPause(): void{
