@@ -16,12 +16,14 @@ export class GameOfLifeService {
     this.updater$ = this.updateSubject.asObservable();
   }
 
-  // example POST:
-  // this.httpClient.post('http://localhost:8080/generation/', {...JSON of the alive cells on the board...}).subscribe();
-
   postGeneration(aliveCells: any[]): void{
-    this.httpClient.post('http://localhost:8080/generation/', {aliveCells}).subscribe(
-      // get location header from response and do a get with that id
+    this.httpClient.post('http://localhost:8080/generation/', {aliveCells}, {observe: 'response'}).subscribe(
+      response => {
+        const locationId = 'http://localhost:8080/generation/16';
+        this.httpClient.get(locationId).subscribe(generation => {
+          this.updateSubject.next(generation);
+        });
+      }
     );
   }
   getGenerationOne(): void{
