@@ -40,12 +40,12 @@ export class AppComponent {
     }));
     this.refresh();
 
-    setInterval(() => {
-      if (this.gameStatus  === 0){
-        this.board.checkBoard();
-        this.generation++;
-      }
-    }, 100);
+    // setInterval(() => {
+    //   if (this.gameStatus  === 0){
+    //     this.board.checkBoard();
+    //     this.generation++;
+    //   }
+    // }, 100);
   }
   onClick(pRow, pCol): void{
     this.board.changeStatus(pRow, pCol);
