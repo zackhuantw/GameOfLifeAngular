@@ -16,7 +16,7 @@ export class GameOfLifeService {
     this.updater$ = this.updateSubject.asObservable();
   }
 
-  getGenerationOne() {
+  getGenerationOne(): void{
     this.httpClient.get('http://localhost:8080/generation/1').subscribe(generation => {
       this.updateSubject.next(generation);
     });

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Board } from './board.model';
 import { GameOfLifeService } from './game-of-life.service';
 
@@ -14,6 +15,8 @@ export class AppComponent {
   gameStatus: number;
   board: Board;
 
+  private subscriptions: Subscription = new Subscription();
+
   constructor(private gameOfLifeService: GameOfLifeService) {
     this.numCols = 40;
     this.numRows = 40;
@@ -21,7 +24,22 @@ export class AppComponent {
     this.gameStatus = 0;
     this.board = new Board(this.numCols, this.numRows);
   }
+
+  // tslint:disable-next-line:typedef
+  refresh() {
+    this.gameOfLifeService.getGenerationOne();
+  }
+
+  // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit(): void{
+
+    this.subscriptions.add(this.gameOfLifeService.updater$.subscribe(generation => {
+      generation.aliveCells.map(aliveCell => {
+        this.board.populate(aliveCell.row, aliveCell.column);
+      });
+    }));
+    this.refresh();
+
     setInterval(() => {
       if (this.gameStatus  === 0){
         this.board.checkBoard();
@@ -30,9 +48,6 @@ export class AppComponent {
     }, 100);
   }
   onClick(pRow, pCol): void{
-
-    this.gameOfLifeService.getGenerationOne();
-
     this.board.changeStatus(pRow, pCol);
   }
   onClickPause(): void{

@@ -9,6 +9,11 @@ export class Board{
       }
     }
   }
+
+  populate(cordX: number, cordY: number): void{
+    this.board[cordX][cordY] = 1;
+  }
+
   status(cordX: number, cordY: number): number{
     return this.board[cordX][cordY];
   }
