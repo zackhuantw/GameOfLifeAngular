@@ -13,7 +13,19 @@ export class Board{
   populate(cordX: number, cordY: number): void{
     this.board[cordX][cordY] = 1;
   }
-
+  listAliveCells(): any[]{
+    const aliveCells = [];
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.board.length; i++){
+      // tslint:disable-next-line:prefer-for-of
+      for (let j = 0; j < this.board[i].length; j++){
+        if (this.board[i][j] === 1){
+          aliveCells.push({"row": i, "column": j});
+        }
+      }
+    }
+    return aliveCells;
+  }
   status(cordX: number, cordY: number): number{
     return this.board[cordX][cordY];
   }

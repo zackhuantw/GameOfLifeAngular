@@ -21,12 +21,10 @@ export class AppComponent {
     this.numCols = 40;
     this.numRows = 40;
     this.generation = 0;
-    this.gameStatus = 0;
+    this.gameStatus = 1;
     this.board = new Board(this.numCols, this.numRows);
   }
-
-  // tslint:disable-next-line:typedef
-  refresh() {
+  refresh(): void{
     this.gameOfLifeService.getGenerationOne();
   }
 
@@ -51,6 +49,8 @@ export class AppComponent {
     this.board.changeStatus(pRow, pCol);
   }
   onClickPause(): void{
-    this.gameStatus = this.gameStatus === 0 ? 1: 0;
+    this.gameStatus = this.gameStatus === 0 ? 1 : 0;
+    const listAliveCells = this.board.listAliveCells();
+    this.gameOfLifeService.postGeneration(listAliveCells);
   }
 }
